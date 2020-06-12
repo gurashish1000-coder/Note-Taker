@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="Note_Taker.Views.NotesDashboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Note_Taker.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800" FontSize="14" Background="SaddleBrown" >
+    
+    <UserControl.Resources>
+
+        
+    </UserControl.Resources>
+    
+    
+    <Border Background="#2e3137" CornerRadius="20" Margin="20">
+        <Grid Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="50" Height="*"/>
+                <RowDefinition MinHeight="50" Height="*"/>
+                <RowDefinition MinHeight="50" Height="*"/>
+                <RowDefinition MinHeight="50" Height="*"/>
+                <RowDefinition MinHeight="50" Height="*"/>
+                <RowDefinition MinHeight="50" Height="*"/>
+                <RowDefinition MinHeight="50" Height="*"/>
+                <RowDefinition MinHeight="50" Height="*"/>
+                
+            </Grid.RowDefinitions>
+            <TextBlock Text="Notes Management"
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                       Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="Enter Id"
+                       Grid.Row="1"
+                       Grid.Column="0" Foreground="White"/>
+            <TextBlock Text="Enter Name"
+                       Grid.Row="2"
+                       Grid.Column="0" Foreground="White"/>
+            <TextBlock Text="Enter Type"
+                       Grid.Row="3"
+                       Grid.Column="0" Foreground="White"/>
+            <TextBlock Text="Enter Content"
+                       Grid.Row="4"
+                       Grid.Column="0" Foreground="White"/>
+            <TextBox Name ="txtId" Grid.Row="1" Grid.Column="1" Background="WhiteSmoke" Text="{Binding Path=CurrentNote.Id, Mode=TwoWay }" />
+            <TextBox Name ="txtName" Grid.Row="2" Grid.Column="1" Background="WhiteSmoke" Text="{Binding Path=CurrentNote.Title, Mode=TwoWay }"/>
+            <TextBox Name ="txtType" Grid.Row="3" Grid.Column="1" Background="WhiteSmoke" Text="{Binding Path=CurrentNote.Type, Mode=TwoWay }"/>
+            <TextBox Name ="txtContent" Grid.Row="4" Grid.Column="1" Background="WhiteSmoke" Text="{Binding Path=CurrentNote.Content, Mode=TwoWay }"/>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1">
+                <Button Name ="btnAdd" Content="Add"  MinWidth="100" Background="SaddleBrown" Command="{Binding Path= SaveCommand}" />
+                <Button Name="btnSearch" Content="Search" MinWidth="100" Background="SaddleBrown" Command="{Binding Path= SearchCommand}" />
+                <Button Name="btnDelete" Content="Delete" MinWidth="100" Background="SaddleBrown" Command="{Binding Path= DeleteCommand}" />
+                <Button Name="btnUpdate" Content="Update" MinWidth="100" Background="SaddleBrown" Command="{Binding Path= UpdateCommand}" />
+            </StackPanel>
+            <TextBlock Name="txtBlockMessage" Grid.Row="6" Grid.Column="1" Foreground="White" Text="{Binding Path=Message}" />
+
+            <DataGrid  Foreground="Black" FontFamily="Segoe UI SemiBold" RowBackground="Bisque" Name="dgNotes" AutoGenerateColumns="False" Grid.Row="7" Grid.Column="1" Background="Bisque" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Path=NotesList, Mode=TwoWay}">
+                <DataGrid.Resources>
+                    <!--Style for the DataGrid header only-->
+                    <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="SaddleBrown" />
+                        <Setter Property="Foreground" Value="Bisque" />
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.InputBindings>
+                    <MouseBinding
+                        MouseAction="LeftDoubleClick"
+                        Command="{Binding DoubleClickCommand}"
+                        CommandParameter="{Binding CollectionView/}"/>
+                </DataGrid.InputBindings>
+                <DataGrid.Columns >
+                    <DataGridTextColumn IsReadOnly="True" Header="Notes Id" Width="auto" Binding="{Binding Path=Id}"/>
+                    <DataGridTextColumn Header="Notes Title" Width="auto" Binding="{Binding Path=Title}"/>
+                    <DataGridTextColumn Header="Notes Date" Width="auto" Binding="{Binding Path=Date}"/>
+                    <DataGridTextColumn Header="Notes Type" Width="auto" Binding="{Binding Path=Type}"/>
+                    <DataGridTextColumn Header="Notes Content" Width="auto" Binding="{Binding Path=Content}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
+
+    </Border>
+    
+</UserControl>
